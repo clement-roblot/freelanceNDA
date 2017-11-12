@@ -3,17 +3,38 @@
 
 \usepackage{karlito}
 
+\usepackage{textpos}
+\usepackage{digsig}
+
 
 
 \title{Accord de confidentiallité}
 \author{Clément Roblot}
 
 
+\usepackage[calc,useregional=numeric]{datetime2}
+\newcount\myct
+\newcount\datecount
+\newcommand{\todayPlus}[1]{%
+    \DTMsavenow{mydate}
+    \DTMsaveddateoffsettojulianday{mydate}{#1}{\myct}
+    \DTMsavejulianday{mydate}{\number\myct}
+    \DTMusedate{mydate}
+}  
+
+
+
+%\conditionnalForm{text}{nameFormFieldIfTextEmpty}
+\newcommand{\conditionnalForm}[2]{\ifthenelse{\equal{#1}{}}{\TextField[#2]{}}{#1}}
+
+
+
+
 
 %%%%%%%%%%%%%%%%% Project
 \newcommand{\projectName}{Refactoring d'un logiciel de chronométrage}
-\newcommand{\startDateProject}{\today}
-\newcommand{\stopDateProject}{18 octobre 2018}
+\newcommand{\startDateProject}{\todayPlus{0}}
+\newcommand{\stopDateProject}{\todayPlus{364}}
 
 
 %%%%%%%%%%%%%%%%% Beneficiary 
@@ -28,7 +49,8 @@
 \newcommand{\nameIssuingCompanie}{SARL A.T.S.}
 \newcommand{\nameIssuingPerson}{}
 \newcommand{\titleIssuingPerson}{}
-\newcommand{\locationIssuing}{Pignan (France)}
+\newcommand{\locationIssuing}{}
+\newcommand{\dateIssuing}{}
 \newcommand{\addressIssuing}{20 Avenue du Général Grollier 34570 Pignan (France)}
 \newcommand{\siretIssuing}{443 182 233 00033}
 
@@ -49,7 +71,7 @@
 \textbf{\nameIssuingCompanie}\\
 Dont le siège est situé au \addressIssuing\\
 N° de SIRET : \siretIssuing\\
-Représentée par \nameIssuingPerson\\
+Représentée par \conditionnalForm{\nameIssuingPerson}{name=nameIssuingPerson,width=12cm}\\
 Ci-après désignée par « \nameIssuingCompanie »
 
 \begin{flushright}\textbf{D’une part,}\end{flushright}
@@ -162,28 +184,34 @@ Titre : Gérant
 
 Signature :
 \newline
-\includegraphics[width=3cm]{images/signature.png}
 
+\begin{textblock}{0}(1,0)
+\includegraphics[width=3cm]{images/signature.png}
+\end{textblock}
 
 \end{minipage}%
 \hfill
 \begin{minipage}{0.45\textwidth}
-À :
+\begin{Form}
+	À : \conditionnalForm{\locationIssuing}{name=locationIssuing,width=5cm}
+	
+	Le : \conditionnalForm{\dateIssuing}{name=dateIssuing,width=5cm}
 
-Le :
-\newline
+	Pour \nameIssuingCompanie
+	
+	Nom : \conditionnalForm{\nameIssuingPerson}{name=nameIssuingPerson,width=5cm}
 
-Pour \nameIssuingCompanie\\
-Nom : \nameIssuingPerson
-
-Titre : \titleIssuingPerson
-
-
-Signature :
+	Titre : \conditionnalForm{\titleIssuingPerson}{name=titleIssuingPerson,width=5cm}
 
 
-
+	Signature :
+	\begin{textblock}{0}(1,0)
+	\digsigfield{5cm}{3cm}{My signature}
+	\end{textblock}
+	
+\end{Form}
 \end{minipage}%
+
 
 
 

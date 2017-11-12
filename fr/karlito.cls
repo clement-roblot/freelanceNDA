@@ -60,7 +60,6 @@
 \RequirePackage{xcolor}
 \RequirePackage{tikz}
 \RequirePackage{verbatim}
-\RequirePackage{kpfonts}
 \RequirePackage[explicit]{titlesec}
 \RequirePackage{varwidth}
 \RequirePackage{lastpage}
